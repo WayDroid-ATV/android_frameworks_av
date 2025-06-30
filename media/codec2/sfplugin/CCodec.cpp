@@ -1673,6 +1673,18 @@ void CCodec::configure(const sp<AMessage> &msg) {
                                 format = flexPixelFormat[10];
                             }
                             break;
+                        case COLOR_Format32bitABGR8888:
+                            format = COLOR_Format32bitABGR8888;
+                            if (flexPixelFormat.count(8) != 0) {
+                                format = flexPixelFormat[8];
+                            }
+                            break;
+                        case COLOR_FormatRGBAFlexible:
+                            format = COLOR_FormatRGBAFlexible;
+                            if (flexPixelFormat.count(8) != 0) {
+                                format = flexPixelFormat[8];
+                            }
+                            break;
                         default:
                             // No-op
                             break;
