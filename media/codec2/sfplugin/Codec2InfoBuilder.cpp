@@ -557,7 +557,10 @@ status_t Codec2InfoBuilder::buildMediaCodecList(MediaCodecListWriter* writer) {
             // TODO: Remove this block once all codecs are enabled by default.
             switch (option) {
             case 0:
-                continue;
+                if (hasPrefix(canonName, "c2.android.") &&
+                        trait.domain == C2Component::DOMAIN_VIDEO &&
+                        trait.kind == C2Component::KIND_DECODER) continue;
+                break;
             case 1:
                 if (hasPrefix(canonName, "c2.vda.")) {
                     break;
