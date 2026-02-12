@@ -428,6 +428,7 @@ status_t Codec2InfoBuilder::buildMediaCodecList(MediaCodecListWriter* writer) {
     // Codec2.0 software components have default rank 0x200.
     int option = ::android::base::GetIntProperty("debug.stagefright.ccodec", 4);
 
+    const bool force_hwaccel = ::android::base::GetBoolProperty("debug.ffmpeg-codec2.hwaccel.force", false);
     const std::string c2_pixfmt = ::android::base::GetProperty("debug.ffmpeg-codec2.pixel_format", "YUV_420");
 
     // Obtain Codec2Client
@@ -558,11 +559,11 @@ status_t Codec2InfoBuilder::buildMediaCodecList(MediaCodecListWriter* writer) {
             }
             std::string canonName = trait.name;
 
-            // Waydroid: Do not enable c2.android decoders on unsupported grallocs
+            // Waydroid: Do not enable c2.android video decoders on unsupported grallocs/when force_hwaccel is set
             if (hasPrefix(canonName, "c2.android.") &&
-                c2_pixfmt != "YUV_420" &&
                 trait.domain == C2Component::DOMAIN_VIDEO &&
-                trait.kind == C2Component::KIND_DECODER
+                trait.kind == C2Component::KIND_DECODER &&
+                (force_hwaccel || c2_pixfmt != "YUV_420")
             ) {
                 continue;
             }
