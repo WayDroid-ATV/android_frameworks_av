@@ -393,6 +393,7 @@ cc_library {
         "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wno-multichar",
+        "-Wno-unused-but-set-variable",
     ],
 
     version_script: "exports.lds",
